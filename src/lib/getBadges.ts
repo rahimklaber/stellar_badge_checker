@@ -49,17 +49,15 @@ export class BadgeAsset extends Asset {
 export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAsset>, boolean]> {
     const account = await server.loadAccount(address) // todo what if the account is not created
     const balances = account.balances
-    const accountBadgeAssets: Array<BadgeAsset> = []
+    const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code,badge.asset_issuer))
 
     //get all sq badges that the account has
     balances.forEach(bal => {
         if (bal.asset_type !== "native") {
             const asset = {"asset_code": bal.asset_code, "asset_issuer": bal.asset_issuer}
-            if (badges.some(({
-                                 asset_code,
-                                 asset_issuer
-                             }) => asset_code === asset.asset_code && asset_issuer === asset.asset_issuer)) {
-                accountBadgeAssets.push(new BadgeAsset(asset.asset_code, asset.asset_issuer))
+            const foundBadgeAsset = accountBadgeAssets.find(badge => badge.code === bal.asset_code && badge.issuer === bal.asset_issuer)
+            if (foundBadgeAsset !== undefined) {
+                foundBadgeAsset.valid = true
             }
         }
     })
@@ -88,7 +86,6 @@ export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAs
     accountBadgeAssets.forEach(asset => {
         const foundPayment = badgePaymentsToMe.find(badgePayment => badgePayment.asset_code === asset.code)
         if (foundPayment !== undefined) {
-            asset.valid = true
             asset.txHash = foundPayment.transaction_hash
         }
     })

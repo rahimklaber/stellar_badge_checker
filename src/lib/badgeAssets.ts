@@ -1,4 +1,3 @@
-import {server} from "./stellar";
 
 export const badges = [
     {

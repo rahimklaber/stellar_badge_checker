@@ -24,16 +24,19 @@ export class Badges extends React.Component<any, any> {
 
     render() {
         const assetComponent = this.state.assets.map((asset: BadgeAsset) => {
+            const header = !asset.valid ? <div className="badges-not-valid">not valid</div> : <div className="badges-valid">valid</div>
+            const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`} target="_blank">{shorten(asset.txHash as string)}</a> : <div></div>
             return <Grid item>
                 <Card key={asset.code}>
+                    {header}
                     <CardMedia
                         className="image"
                     image={asset.getImageUrl()}
                     title="test"
                     />
                     <CardContent >
-                        {asset.code}
-                        <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`} target="_blank">{shorten(asset.txHash as string)}</a>
+                        {asset.code}<br/>
+                        {txLink}
                     </CardContent>
                 </Card>
             </Grid>
