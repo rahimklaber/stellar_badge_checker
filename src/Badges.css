@@ -1,0 +1,11 @@
+.badges-not-valid {
+    background-color: red;
+}
+
+.badges-valid{
+    background-color: limegreen;
+}
+
+.image{
+    height: 140px;
+}
