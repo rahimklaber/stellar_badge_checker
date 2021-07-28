@@ -1,0 +1,23 @@
+.text{
+    padding: 10px;
+    color: white;
+}
+.grow{
+    flex-grow: 1;
+}
+
+
+.attestation{
+    background-color: #c73e1d;
+    background-image: linear-gradient(315deg, #c73e1d 0%, #a23b72 37%, #2e86ab 100%);
+}
+
+.bottomRow{
+    background-color: #c7fe1d;
+    background-image: linear-gradient(315deg, #c73e1d 0%, #a23b72 37%, #2e86ab 100%);
+}
+
+.attestButton{
+    background-color: white;
+    color: white;
+}

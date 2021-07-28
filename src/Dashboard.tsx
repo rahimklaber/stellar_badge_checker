@@ -1,9 +1,9 @@
 import React from "react";
-import {AppBar, Button, Container, TextField} from "@material-ui/core";
+import {AppBar, Backdrop, Button, Container} from "@material-ui/core";
 import {getAlbedoPublicKey} from "./lib/albedo";
 import "./DashBoard.css"
 import {shorten} from "./lib/utils";
-
+import {Attestation} from "./Attestation"
 interface IDashBoardProp {
     setAddress: (addr: string, albedo: boolean) => void
 }
@@ -11,12 +11,26 @@ interface IDashBoardProp {
 interface IDashBoardState {
     address: string
     loggedIn: boolean
+    attestationOpen : boolean
 }
 
 export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> {
     constructor(props: any) {
         super(props);
-        this.state = {address: "",loggedIn: false}
+        this.state = {address: "", loggedIn: false, attestationOpen : false}
+        window.close = () =>  this.closeAttestation()
+    }
+
+    closeAttestation(){
+        this.setState({
+            attestationOpen : false
+        })
+    }
+
+    openAttestation(){
+        this.setState({
+            attestationOpen : true
+        })
     }
 
     render() {
@@ -33,20 +47,41 @@ export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> 
 
                     <div className="grow"/>
                     <Button color="primary"
-                            onClick={() => getAlbedoPublicKey().then(address => {
-                                this.props.setAddress(address, true)
-                                this.setState({
-                                    loggedIn : true,
-                                    address : address
-                                })
-                                console.log(this.state.address)
-                            })}>
-                        <b className="text" >{albedoButtonText}</b>
+                            onClick={() => {
+                                // logout
+                                if (this.state.loggedIn){
+                                    this.setState({
+                                        loggedIn : false,
+                                        address: ""
+                                    })
+                                    this.props.setAddress("",false)
+                                    return
+                                }
+                                    getAlbedoPublicKey().then(address => {
+                                        this.props.setAddress(address, true)
+                                        this.setState({
+                                            loggedIn: true,
+                                            address: address
+                                        })
+                                    })
+                            }}>
+                        <b className="text">{albedoButtonText}</b>
                     </Button>
 
-                    <Button color="primary">
+                    <Button color="primary" onClick={() => {
+                        if (!this.state.loggedIn) {
+                            alert("Connect with albedo first")
+                            return
+                        }
+                        this.openAttestation()
+
+                    }}>
                         <b className="text">Create attestation</b>
                     </Button>
+                    <Backdrop open={this.state.attestationOpen} onClick={()=>""}>
+                        <Attestation address={this.state.address} close={()=> this.closeAttestation()}/>
+                    </Backdrop>
+
                 </Container>
 
 
