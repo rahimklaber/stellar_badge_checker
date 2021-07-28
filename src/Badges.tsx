@@ -54,16 +54,17 @@ export class Badges extends React.Component<IBadgesProps, any> {
                 <div className="badges-valid">valid</div>
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
                                             target="_blank">{shorten(asset.txHash as string)}</a> : <div></div>
+            const cssClass = asset.valid ? "badge" : "badge-invalid"
             return <Grid item key={asset.code}>
-                <Card className="badge">
-                    {header}
+                <Card className={cssClass}>
+                    {/*{header}*/}
                     <CardMedia
                         className="image"
                         image={asset.getImageUrl()}
                         title="test"
                     />
                     <CardContent>
-                        {asset.code}<br/>
+                        <b className="text">{"Quest ".concat(asset.code.slice(asset.code.length-1,asset.code.length))}</b><br/>
                         {txLink}
                     </CardContent>
                 </Card>
@@ -83,19 +84,19 @@ export class Badges extends React.Component<IBadgesProps, any> {
                 <h2 className="text">
                     Series 1
                 </h2>
-                <Grid container spacing={1} justifyContent="center" alignItems="center">
+                <Grid container spacing={2} justifyContent="center" alignItems="center">
                     {series1AssetGrid}
                 </Grid>
                 <h2 className="text">
                     Series 2
                 </h2>
-                <Grid container spacing={1} justifyContent="center" alignItems="center">
+                <Grid container spacing={2} justifyContent="center" alignItems="center">
                     {series2AssetGrid}
                 </Grid>
                 <h2 className="text">
                     Series 3
                 </h2>
-                <Grid container spacing={1} justifyContent="center" alignItems="center">
+                <Grid container spacing={2} justifyContent="center" alignItems="center">
                     {series3AssetGrid}
                 </Grid>
             </div>
