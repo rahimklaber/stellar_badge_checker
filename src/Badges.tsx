@@ -5,48 +5,30 @@ import "./Badges.css"
 import {shorten} from "./lib/utils";
 
 interface IBadgesProps {
-    address: string
+    badges: Array<BadgeAsset>
 }
 
-export class Badges extends React.Component<IBadgesProps, any> {
-    constructor(props: any) {
+interface IBadgesState{
+    series1: Array<BadgeAsset>
+    series2: Array<BadgeAsset>
+    series3: Array<BadgeAsset>
+}
+export class Badges extends React.Component<IBadgesProps, IBadgesState> {
+    constructor(props: IBadgesProps) {
         super(props);
         // series 1..3 are assets for those series
-        this.state = {assets: [], series1: [], series2: [], series3: [], valid: false}
+        this.state = {series1: [], series2: [], series3: []}
     }
 
-    componentDidMount() {
-        checkAndGetBadges(this.props.address).then(([assets, complete]) => {
-            this.setState({
-                assets: assets,
-                valid: complete,
-                series1: assets.slice(0, 8),
-                series2: assets.slice(8, 16),
-                series3: assets.slice(16, 24)
-            })
-        }).catch(err => console.log("Loaded assets"))
+    static getDerivedStateFromProps(props: IBadgesProps , state: IBadgesState) : IBadgesState{
+        return {
+            series1 : props.badges.slice(0,8),
+            series2: props.badges.slice(8,16),
+            series3: props.badges.slice(16,24)
+        }
     }
 
-    loadBadges(){
-       checkAndGetBadges(this.props.address).then(([assets, complete]) => {
-           this.setState({
-               assets: assets,
-               valid: complete,
-               series1: assets.slice(0, 8),
-               series2: assets.slice(8, 16),
-               series3: assets.slice(16, 24)
-           })
-       }).catch(err => console.log("failed to load assets; check the address"))
-   }
 
-    /**
-     * load badges when an address has been passed to the object
-     */
-   componentDidUpdate(prevProps: Readonly<IBadgesProps>) {
-       if(prevProps.address !== this.props.address && this.props.address !== ""){
-           this.loadBadges()
-       }
-   }
 
     createAssetComponentsGrid(assets: Array<BadgeAsset>) {
         return assets.map((asset: BadgeAsset) => {

@@ -2,23 +2,40 @@ import React from 'react';
 import './App.css';
 import {Badges} from "./Badges";
 import {DashBoard} from "./Dashboard";
+import {BadgeAsset, checkAndGetBadges} from "./lib/getBadges";
 
 interface IAppState {
     address: string
     loggedIn: boolean
+    badges : Array<BadgeAsset>
 }
 
 class App extends React.Component<any, IAppState> {
 
     constructor(props: any) {
         super(props)
-        this.state = {address: "", loggedIn: false}
+        this.state = {address: "", loggedIn: false,badges:[]}
+    }
+
+    componentDidMount() {
+        this.loadBadges()
     }
 
     updateAddress(address: string, loggedIn: boolean) {
         this.setState({
-            address: address
+            address: address,
+            loggedIn : loggedIn
         })
+        this.loadBadges()
+        console.log(this.state.badges)
+    }
+
+    loadBadges(){
+        checkAndGetBadges(this.state.address).then(([assets,complete])=>{
+            this.setState({
+            badges : assets
+            })
+        }).catch(()=>console.log("failed to load address"))
     }
 
     render() {
@@ -31,7 +48,7 @@ class App extends React.Component<any, IAppState> {
                     </h1>
                 </header>
                 <div>
-                    <Badges address={this.state.address}/>
+                    <Badges badges={this.state.badges}/>
                     <p>
                         hi
                     </p>
