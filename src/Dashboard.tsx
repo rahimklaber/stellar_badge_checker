@@ -1,37 +1,48 @@
 import React from "react";
-import {Card, CardContent, CardMedia, Grid, makeStyles,TextField,Button} from "@material-ui/core";
-import {Asset} from "stellar-sdk";
-import {BadgeAsset, checkAndGetBadges} from "./lib/getBadges";
+import {AppBar, Button, Container, TextField} from "@material-ui/core";
 import {getAlbedoPublicKey} from "./lib/albedo";
 import "./DashBoard.css"
-import {shorten} from "./lib/utils";
 
 interface IDashBoardProp {
-    setAddress : (addr : string) => void
+    setAddress: (addr: string, albedo: boolean) => void
 }
 
 interface IDashBoardState {
-
+    addressFromField: string
 }
 
 export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> {
-     constructor(props: any) {
+    constructor(props: any) {
         super(props);
-        this.state = {}
+        this.state = {addressFromField: ""}
     }
 
     render() {
 
         return (
-            <Card>
+            <AppBar position="sticky" className="DashBoard">
+                <Container>
+                    <TextField variant="outlined"
+                               onChange={(event) => this.setState({addressFromField: event.target.value})}/>
+                    <Button color="primary"
+                            onClick={() => this.props.setAddress(this.state.addressFromField, false)}>
+                        <b  className="text">Load</b>
+                    </Button>
 
-                <TextField>
+                    {/*<div/>*/}
+                    <Button color="primary"
+                            onClick={() => getAlbedoPublicKey().then(address => this.props.setAddress(address, true))}>
+                        <b className="text" >Connect With Albedo</b>
+                    </Button>
 
-                </TextField>
-                <Button color="primary" onClick={() => getAlbedoPublicKey().then(address => this.props.setAddress(address))}>
-                    Connect With Albedo
-                </Button>
-            </Card>
+                    <Button color="primary">
+                        <b className="text">Create attestation</b>
+                    </Button>
+                </Container>
+
+
+            </AppBar>
+
         )
     }
 }

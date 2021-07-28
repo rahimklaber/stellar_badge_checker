@@ -47,12 +47,18 @@ export class BadgeAsset extends Asset {
  * @return Pair of list of assets and boolean to indicate whether all assets are here
  */
 export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAsset>, boolean]> {
-    const account = await server.loadAccount(address) // todo what if the account is not created
-    const balances = account.balances
+    const account = await server.loadAccount(address).catch(()=> {
+        return null
+    }) // todo what if the account is not created
+    const balances = account?.balances
     const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code,badge.asset_issuer))
 
+    if(account == null){
+        return [accountBadgeAssets,false]
+    }
+
     //get all sq badges that the account has
-    balances.forEach(bal => {
+    balances?.forEach(bal => {
         if (bal.asset_type !== "native") {
             const asset = {"asset_code": bal.asset_code, "asset_issuer": bal.asset_issuer}
             const foundBadgeAsset = accountBadgeAssets.find(badge => badge.code === bal.asset_code && badge.issuer === bal.asset_issuer)

@@ -15,7 +15,19 @@ export class Badges extends React.Component<IBadgesProps, any> {
         this.state = {assets: [], series1: [], series2: [], series3: [], valid: false}
     }
 
-   loadBadges(){
+    componentDidMount() {
+        checkAndGetBadges(this.props.address).then(([assets, complete]) => {
+            this.setState({
+                assets: assets,
+                valid: complete,
+                series1: assets.slice(0, 8),
+                series2: assets.slice(8, 16),
+                series3: assets.slice(16, 24)
+            })
+        }).catch(err => console.log("Loaded assets"))
+    }
+
+    loadBadges(){
        checkAndGetBadges(this.props.address).then(([assets, complete]) => {
            this.setState({
                assets: assets,
@@ -43,7 +55,7 @@ export class Badges extends React.Component<IBadgesProps, any> {
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
                                             target="_blank">{shorten(asset.txHash as string)}</a> : <div></div>
             return <Grid item key={asset.code}>
-                <Card>
+                <Card className="badge">
                     {header}
                     <CardMedia
                         className="image"
@@ -65,24 +77,22 @@ export class Badges extends React.Component<IBadgesProps, any> {
         const series2AssetGrid = this.createAssetComponentsGrid(this.state.series2)
         const series3AssetGrid = this.createAssetComponentsGrid(this.state.series3)
 
-        const header = !this.state.valid ? <div className="badges-not-valid">not validated</div> :
-            <div className="badges-valid">validated</div>
+
         return (
             <div>
-                {header}
-                <h2>
+                <h2 className="text">
                     Series 1
                 </h2>
                 <Grid container spacing={1} justifyContent="center" alignItems="center">
                     {series1AssetGrid}
                 </Grid>
-                <h2>
+                <h2 className="text">
                     Series 2
                 </h2>
                 <Grid container spacing={1} justifyContent="center" alignItems="center">
                     {series2AssetGrid}
                 </Grid>
-                <h2>
+                <h2 className="text">
                     Series 3
                 </h2>
                 <Grid container spacing={1} justifyContent="center" alignItems="center">

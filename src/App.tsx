@@ -1,43 +1,45 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Badges} from "./Badges";
 import {DashBoard} from "./Dashboard";
 
-class App extends React.Component<any, any> {
+interface IAppState {
+    address: string
+    loggedIn: boolean
+}
 
-    constructor(props : any) {
+class App extends React.Component<any, IAppState> {
+
+    constructor(props: any) {
         super(props)
-        this.state = {address : ""}
+        this.state = {address: "", loggedIn: false}
     }
 
-    updateAddress (address : string){
+    updateAddress(address: string, loggedIn: boolean) {
         this.setState({
-            address : address
+            address: address
         })
     }
 
     render() {
-       return (
+        return (
             <div className="App">
-                {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-                <DashBoard setAddress={(addr) => {
-                    this.updateAddress(addr)
-                }} />
-                <Badges address={this.state.address}/>
+
+                <header>
+                    <h1 className="title">
+                        Stellar Quest badge checker
+                    </h1>
+                </header>
+                <div>
+                    <Badges address={this.state.address}/>
+                    <p>
+                        hi
+                    </p>
+                    <DashBoard setAddress={(addr, albedo) => {
+                        this.updateAddress(addr, albedo)
+                    }}/>
+                </div>
+
             </div>
         )
     }
