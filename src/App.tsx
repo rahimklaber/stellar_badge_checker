@@ -19,7 +19,7 @@ class App extends React.Component<any, IAppState> {
     }
 
     componentDidMount() {
-        this.loadBadges()
+        this.loadBadges("")
     }
 
     updateAddress(address: string, loggedIn: boolean) {
@@ -27,11 +27,11 @@ class App extends React.Component<any, IAppState> {
             address: address,
             loggedIn : loggedIn
         })
-        this.loadBadges()
+        this.loadBadges(address)
     }
 
-    loadBadges(){
-        checkAndGetBadges(this.state.address).then(([assets,complete])=>{
+    loadBadges(address: string){
+        checkAndGetBadges(address).then(([assets,complete])=>{
             this.setState({
             badges : assets
             })
