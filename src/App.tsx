@@ -15,6 +15,7 @@ class App extends React.Component<any, IAppState> {
     constructor(props: any) {
         super(props)
         this.state = {address: "", loggedIn: false,badges:[]}
+        window.close = () => this.state.badges
     }
 
     componentDidMount() {
@@ -27,7 +28,6 @@ class App extends React.Component<any, IAppState> {
             loggedIn : loggedIn
         })
         this.loadBadges()
-        console.log(this.state.badges)
     }
 
     loadBadges(){
@@ -52,7 +52,7 @@ class App extends React.Component<any, IAppState> {
                     <p>
                         hi
                     </p>
-                    <DashBoard setAddress={(addr, albedo) => {
+                    <DashBoard badges={this.state.badges} setAddress={(addr, albedo) => {
                         this.updateAddress(addr, albedo)
                     }}/>
                 </div>

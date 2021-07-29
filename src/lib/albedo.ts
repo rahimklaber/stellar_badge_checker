@@ -8,3 +8,17 @@ export async function getAlbedoPublicKey(): Promise<string> {
 
     return albedoResponse.pubkey
 }
+
+/**
+ * sign message with your albedo secret. //todo I think its secret
+ * @param data data to sign
+ * @param address account to sign with
+ */
+export async function signMessageWithAlbedo(address: string,data: string) : Promise<string>{
+    const albedoResponse = await albedo.signMessage({
+        message : data,
+        pubkey : address
+    })
+
+    return albedoResponse.message_signature
+}

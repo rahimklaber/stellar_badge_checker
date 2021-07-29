@@ -4,8 +4,10 @@ import {getAlbedoPublicKey} from "./lib/albedo";
 import "./DashBoard.css"
 import {shorten} from "./lib/utils";
 import {Attestation} from "./Attestation"
+import {BadgeAsset} from "./lib/getBadges";
 interface IDashBoardProp {
     setAddress: (addr: string, albedo: boolean) => void
+    badges : Array<BadgeAsset>
 }
 
 interface IDashBoardState {
@@ -18,7 +20,6 @@ export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> 
     constructor(props: any) {
         super(props);
         this.state = {address: "", loggedIn: false, attestationOpen : false}
-        window.close = () =>  this.closeAttestation()
     }
 
     closeAttestation(){
@@ -79,7 +80,7 @@ export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> 
                         <b className="text">Create attestation</b>
                     </Button>
                     <Backdrop open={this.state.attestationOpen} onClick={()=>""}>
-                        <Attestation address={this.state.address} close={()=> this.closeAttestation()}/>
+                        <Attestation badges={this.props.badges} address={this.state.address} close={()=> this.closeAttestation()}/>
                     </Backdrop>
 
                 </Container>

@@ -60,7 +60,6 @@ export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAs
     //get all sq badges that the account has
     balances?.forEach(bal => {
         if (bal.asset_type !== "native") {
-            const asset = {"asset_code": bal.asset_code, "asset_issuer": bal.asset_issuer}
             const foundBadgeAsset = accountBadgeAssets.find(badge => badge.code === bal.asset_code && badge.issuer === bal.asset_issuer)
             if (foundBadgeAsset !== undefined) {
                 foundBadgeAsset.valid = true

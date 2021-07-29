@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, CardContent, CardMedia, Grid} from "@material-ui/core";
-import {BadgeAsset, checkAndGetBadges} from "./lib/getBadges";
+import {BadgeAsset} from "./lib/getBadges";
 import "./Badges.css"
 import {shorten} from "./lib/utils";
 
@@ -32,8 +32,6 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
 
     createAssetComponentsGrid(assets: Array<BadgeAsset>) {
         return assets.map((asset: BadgeAsset) => {
-            const header = !asset.valid ? <div className="badges-not-valid">not valid</div> :
-                <div className="badges-valid">valid</div>
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
                                             target="_blank">{shorten(asset.txHash as string)}</a> : <div></div>
             const cssClass = asset.valid ? "badge" : "badge-invalid"
