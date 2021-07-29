@@ -3,7 +3,6 @@ import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/co
 import "./Attestation.css"
 import {BadgeAsset} from "./lib/getBadges";
 import {createAttestation} from "./lib/createAttestation";
-import QRCode from "easyqrcodejs"
 
 interface IAttestationProps {
     close: () => void
@@ -29,6 +28,9 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
         })
     }
 
+    /**
+     * generate and download the attestation
+     */
     generateAttestation() {
         createAttestation(this.props.address, this.props.badges, this.state.identifier)
             .then(token => {
@@ -37,9 +39,8 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
                 })
                 const now = Date.now()
                 const file = new File([token],`${this.props.address}_quest_token_${now.valueOf()}.txt`, {type: "application/octet-stream"})
-                const fileUrl = URL.createObjectURL(file)
                 // eslint-disable-next-line no-restricted-globals
-                location.href=fileUrl
+                location.href=URL.createObjectURL(file)
             })
 
     }

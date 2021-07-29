@@ -33,7 +33,7 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
     createAssetComponentsGrid(assets: Array<BadgeAsset>) {
         return assets.map((asset: BadgeAsset) => {
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
-                                            target="_blank">{shorten(asset.txHash as string)}</a> : <div></div>
+                                            target="_blank">{shorten(asset.txHash as string)}</a> : <div className="text-transparent">hi</div>
             const cssClass = asset.valid ? "badge" : "badge-invalid"
             return <Grid item key={asset.code}>
                 <Card className={cssClass}>

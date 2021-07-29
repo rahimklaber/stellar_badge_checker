@@ -13,6 +13,9 @@
 .text{
     color: white;
 }
+.text-transparent{
+    color: transparent;
+}
 
 .badge-invalid{
     filter: grayscale(100%);

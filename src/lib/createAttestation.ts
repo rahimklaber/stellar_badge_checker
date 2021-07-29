@@ -4,7 +4,6 @@ import {signMessageWithAlbedo} from "./albedo";
 /**
  * Create a token signed by the requester, to attest to the badges
  *
- * series:quest:hash:*......*address*epoch
  *
  * @param address user to create token for
  * @param token extra information to create token. Usefull when someone has requested a token.
