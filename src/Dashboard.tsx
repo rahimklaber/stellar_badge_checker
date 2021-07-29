@@ -6,6 +6,7 @@ import {shorten} from "./lib/utils";
 import {Attestation} from "./Attestation"
 import {BadgeAsset} from "./lib/getBadges";
 import {verifyAttestation} from "./lib/verifyAttestation";
+import {VerifyAttestation} from "./VerifyAttestation";
 interface IDashBoardProp {
     setAddress: (addr: string, albedo: boolean) => void
     badges : Array<BadgeAsset>
@@ -105,7 +106,7 @@ export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> 
                     </Backdrop>
 
                     <Backdrop open={this.state.verifyAttestationOpen} onClick={()=>""}>
-                        {/*<Attestation badges={this.props.badges} address={this.state.address} close={()=> this.closeAttestation()}/>*/}
+                        <VerifyAttestation close={()=> this.closeVerifyAttestation()}/>
                     </Backdrop>
 
 
