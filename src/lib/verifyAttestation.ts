@@ -16,7 +16,7 @@ export interface IVerifyAttestationResult{
  *
  * @param attestation attestation to verify.
  *
- * @return object with informatino about the result
+ * @return object with information about the result
  */
 export async function verifyAttestation(attestation: string) : Promise<IVerifyAttestationResult> {
     const split = attestation.split("*")
