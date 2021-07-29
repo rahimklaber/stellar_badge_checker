@@ -3,33 +3,51 @@ import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/co
 import "./Attestation.css"
 import {BadgeAsset} from "./lib/getBadges";
 import {createAttestation} from "./lib/createAttestation";
+import QRCode from "easyqrcodejs"
 
 interface IAttestationProps {
-    close : () => void
+    close: () => void
     address: string
-    badges : Array<BadgeAsset>
+    badges: Array<BadgeAsset>
 }
 
-interface IAttestationState{
-    identifier : string
+interface IAttestationState {
+    identifier: string
+    token: string
 }
 
 export class Attestation extends React.Component<IAttestationProps, IAttestationState> {
 
-    constructor(props : IAttestationProps) {
+    constructor(props: IAttestationProps) {
         super(props);
-        this.state = {identifier: ""}
+        this.state = {identifier: "", token: ""}
     }
 
-    updateIdentifier(identifier:string){
+    updateIdentifier(identifier: string) {
         this.setState({
             identifier
         })
     }
 
+    generateAttestation() {
+        createAttestation(this.props.address, this.props.badges, this.state.identifier)
+            .then(token => {
+                this.setState({
+                    token
+                })
+                const now = Date.now()
+                const file = new File([token],`${this.props.address}_quest_token_${now.valueOf()}.txt`, {type: "application/octet-stream"})
+                const fileUrl = URL.createObjectURL(file)
+                // eslint-disable-next-line no-restricted-globals
+                location.href=fileUrl
+            })
+
+    }
+
     render() {
+
         return (
-            <Card >
+            <Card>
                 <CardContent className="attestation">
                     <h2 className="text">
                         Generate an attestation
@@ -37,10 +55,12 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
                     <h3 className="text">
                         Add a token to make the attestation unique
                     </h3>
-                    <TextField className="text" variant="filled" label="Identifier" onChange={(event)=>this.updateIdentifier(event.target.value)}/>
+                    <TextField className="text" variant="filled" label="Identifier"
+                               onChange={(event) => this.updateIdentifier(event.target.value)}/>
+                    <div id="qrcode"/>
                 </CardContent>
                 <CardActions className="bottomRow">
-                    <Button className="attestButton" onClick={()=> createAttestation(this.props.address,this.props.badges,this.state.identifier)}>
+                    <Button className="attestButton" onClick={() => this.generateAttestation()}>
                         <b className="text">Create attestation</b>
                     </Button>
                     <div className="grow"/>
