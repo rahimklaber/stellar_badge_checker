@@ -8,7 +8,8 @@ export interface IVerifyAttestationResult{
     date : Date,
     address : string,
     token : string,
-    badges : Array<BadgeAsset>
+    badges : Array<BadgeAsset>,
+    attestationString : string
 }
 
 /**
@@ -34,7 +35,8 @@ export async function verifyAttestation(attestation: string) : Promise<IVerifyAt
             date : new Date(),
             address : address,
             token : token,
-            badges : []
+            badges : [],
+            attestationString: attestation
         }
     }
     // find the badges that this address has to compare with the txs in the token
@@ -59,19 +61,21 @@ export async function verifyAttestation(attestation: string) : Promise<IVerifyAt
                 date : new Date(),
                 address : address,
                 token : token,
-                badges : []
+                badges : [],
+                attestationString: attestation
             }
         }
     })
 
     const dateObj = new Date(0)
-    dateObj.setUTCDate(parseInt(timeEpoch))
+    dateObj.setTime(parseInt(timeEpoch))
     return {
         valid : true,
         date : dateObj,
         address : address,
         token : token,
-        badges : badgesForAddress
+        badges : badgesForAddress,
+        attestationString: attestation
     }
 
 }

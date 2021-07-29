@@ -3,7 +3,7 @@ import './App.css';
 import {Badges} from "./Badges";
 import {DashBoard} from "./Dashboard";
 import {BadgeAsset, checkAndGetBadges} from "./lib/getBadges";
-import {IVerifyAttestationResult} from "./lib/verifyAttestation";
+import {IVerifyAttestationResult, verifyAttestation} from "./lib/verifyAttestation";
 import {AttestationResult} from "./AttestationResult";
 
 interface IAppState {
@@ -11,6 +11,7 @@ interface IAppState {
     loggedIn: boolean
     badges: Array<BadgeAsset>
     attestResult: IVerifyAttestationResult
+    showAttestResult: boolean
 }
 
 class App extends React.Component<any, IAppState> {
@@ -18,12 +19,14 @@ class App extends React.Component<any, IAppState> {
     constructor(props: any) {
         super(props)
         this.state = {
+            showAttestResult: false,
             address: "", loggedIn: false, badges: [], attestResult: {
                 valid: false,
                 date: new Date(),
                 address: "",
                 token: "",
-                badges: []
+                badges: [],
+                attestationString: ""
             }
         }
     }
@@ -38,6 +41,9 @@ class App extends React.Component<any, IAppState> {
             this.setState({
                 address: params.get("address") as string
             })
+        } else if (params.get("attestation") !== null) {
+            verifyAttestation(params.get("attestation") as string)
+                .then(attestRes=> this.updateAttestResult(attestRes))
         } else {
             this.loadBadges("")
         }
@@ -74,9 +80,19 @@ class App extends React.Component<any, IAppState> {
 
     updateAttestResult(attestResult: IVerifyAttestationResult) {
         this.setState({
-            attestResult
+            attestResult,
+            showAttestResult: true
         })
         this.loadBadges(attestResult.address)
+        this.clearPath()
+        // eslint-disable-next-line no-restricted-globals
+        const search = location.search
+        const params = new URLSearchParams(search)
+        params.set("attestation", attestResult.attestationString)
+        // eslint-disable-next-line no-restricted-globals
+        const link = location.pathname + "?" + params.toString()
+        // eslint-disable-next-line no-restricted-globals
+        history.pushState(null, "", link)
     }
 
     loadBadges(address: string) {
@@ -88,10 +104,11 @@ class App extends React.Component<any, IAppState> {
     }
 
     render() {
+        const attestresult = this.state.showAttestResult ?
+            <AttestationResult attestResult={this.state.attestResult}/> : null
         return (
             <div className="App">
-
-                <AttestationResult attestResult={this.state.attestResult}/>
+                {attestresult}
 
                 <h1 className="title">
                     Stellar Quest badge checker

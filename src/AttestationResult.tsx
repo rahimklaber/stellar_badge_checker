@@ -19,7 +19,7 @@ export class AttestationResult extends React.Component<IAttestationResultProps, 
                     </h2>
                     <p className="text">
                         {`Created on: ${this.props.attestResult.date}`}<br/>
-                        {`Token: ${this.props.attestResult.token}`}<br/>
+                        {this.props.attestResult.token == "" ? "No token was used to generate the attestation" : `Token: ${this.props.attestResult.token}`}<br/>
 
                         View account badges below
                     </p>

@@ -23,7 +23,8 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
                 date: new Date(),
                 address: "",
                 token: "",
-                badges: []
+                badges: [],
+                attestationString: ""
             }
         }
     }
