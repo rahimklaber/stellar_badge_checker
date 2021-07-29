@@ -17,7 +17,6 @@ export async function createAttestation(address : string,badges: Array<BadgeAsse
         return series+quest+badge.txHash
     })
 
-    const validBadgesHashes = validBadges.join()
     const finalPart = token === "" ? "" : "*"+token
     const fullToken = validBadges+"*"+timeEpoch+"*"+address+finalPart
 

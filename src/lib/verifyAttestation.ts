@@ -38,7 +38,7 @@ export async function verifyAttestation(attestation: string) : Promise<IVerifyAt
         }
     }
     // find the badges that this address has to compare with the txs in the token
-    const [badgesForAddress,complete] = await checkAndGetBadges(address)
+    const [badgesForAddress] = await checkAndGetBadges(address)
 
     const splitHashes = hashes.map((hash) => {
         return {

@@ -33,7 +33,7 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
     createAssetComponentsGrid(assets: Array<BadgeAsset>) {
         return assets.map((asset: BadgeAsset) => {
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
-                                            target="_blank">{shorten(asset.txHash as string)}</a> : <div className="text-transparent">hi</div>
+                                            target="_blank" rel="noreferrer">{shorten(asset.txHash as string)}</a> : <div className="text-transparent">hi</div>
             const cssClass = asset.valid ? "badge" : "badge-invalid"
             return <Grid item key={asset.code}>
                 <Card className={cssClass}>
@@ -41,7 +41,7 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
                     <CardMedia
                         className="image"
                         image={asset.getImageUrl()}
-                        title="test"
+                        title={asset.code}
                     />
                     <CardContent>
                         <b className="text">{"Quest ".concat(asset.code.slice(asset.code.length-1,asset.code.length))}</b><br/>
@@ -60,7 +60,7 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
 
 
         return (
-            <div>
+            <div className="badges">
                 <h2 className="text">
                     Series 1
                 </h2>

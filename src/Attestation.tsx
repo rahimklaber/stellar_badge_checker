@@ -3,6 +3,7 @@ import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/co
 import "./Attestation.css"
 import {BadgeAsset} from "./lib/getBadges";
 import {createAttestation} from "./lib/createAttestation";
+import {IVerifyAttestationResult} from "./lib/verifyAttestation";
 
 interface IAttestationProps {
     close: () => void

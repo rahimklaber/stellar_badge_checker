@@ -5,6 +5,7 @@ import {IVerifyAttestationResult, verifyAttestation} from "./lib/verifyAttestati
 
 interface IVerifyAttestationProps {
     close: () => void
+    updateAttestResult : (attestRes: IVerifyAttestationResult) => void
 }
 
 interface IVerifyAttestationState {
@@ -34,6 +35,8 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
                 this.setState({
                     attestResult: res
                 })
+                this.props.updateAttestResult(res)
+                this.props.close()
             })
     }
 
@@ -53,9 +56,6 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
                     <h2 className="text">
                         Verify an attestation
                     </h2>
-                    {/*<h3 className="text">
-                        Add a token to make the attestation unique
-                    </h3>*/}
                     <TextField onChange={(event) => this.updateToken(event.target.value)} className="text"
                                variant="filled" label="Identifier"/>
                     <div id="qrcode"/>
