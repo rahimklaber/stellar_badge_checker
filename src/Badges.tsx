@@ -2,7 +2,6 @@ import React from "react";
 import {Card, CardContent, CardMedia, Grid} from "@material-ui/core";
 import {BadgeAsset} from "./lib/getBadges";
 import "./Badges.css"
-import {shorten} from "./lib/utils";
 
 interface IBadgesProps {
     badges: Array<BadgeAsset>
@@ -37,7 +36,7 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
     createAssetComponentsGrid(assets: Array<BadgeAsset>) {
         return assets.map((asset: BadgeAsset) => {
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
-                                            target="_blank" rel="noreferrer">{shorten(asset.txHash as string)}</a> : <div className="text-transparent">hi</div>
+                                            target="_blank" rel="noreferrer">{"view Tx"}</a> : <div className="text-transparent noselect">_</div> // _ is to keep the height consistent
             const cssClass = asset.valid ? "badge" : "badge-invalid"
             return <Grid item key={asset.code}>
                 <Card className={cssClass}>

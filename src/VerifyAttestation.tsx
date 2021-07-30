@@ -9,7 +9,7 @@ interface IVerifyAttestationProps {
 }
 
 interface IVerifyAttestationState {
-    token: string
+    attestation: string
     attestResult: IVerifyAttestationResult
 }
 
@@ -21,7 +21,7 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
     constructor(props: IVerifyAttestationProps) {
         super(props);
         this.state = {
-            token: "", attestResult: {
+            attestation: "", attestResult: {
                 valid: false,
                 date: new Date(),
                 address: "",
@@ -33,7 +33,7 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
     }
 
     verify() {
-        verifyAttestation(this.state.token)
+        verifyAttestation(this.state.attestation)
             .then((res) => {
                 console.log(res)
                 this.setState({
@@ -44,15 +44,14 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
             })
     }
 
-    updateToken(token: string) {
+    updateToken(attestation: string) {
         this.setState({
-            token
+            attestation
         })
     }
 
     render() {
 
-        const attestation  = this.state.attestResult.address !== "" ? <div>{"attestation is valid: " + this.state.attestResult.valid.toString()}</div> : <div/>
 
         return (
             <Card>
@@ -62,8 +61,6 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
                     </h2>
                     <TextField onChange={(event) => this.updateToken(event.target.value)} className="text"
                                variant="filled" label="Attestation"/>
-                    <div id="qrcode"/>
-                    {attestation}
 
                 </CardContent>
                 <CardActions className="bottomRow">

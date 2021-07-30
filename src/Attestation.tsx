@@ -3,6 +3,7 @@ import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/co
 import "./Attestation.css"
 import {BadgeAsset} from "./lib/getBadges";
 import {createAttestation} from "./lib/createAttestation";
+import {saveAs} from "file-saver"
 
 interface IAttestationProps {
     close: () => void
@@ -12,14 +13,17 @@ interface IAttestationProps {
 
 interface IAttestationState {
     identifier: string
-    token: string
+    attestation: string
 }
 
+/**
+ * Component to create an attestation.
+ */
 export class Attestation extends React.Component<IAttestationProps, IAttestationState> {
 
     constructor(props: IAttestationProps) {
         super(props);
-        this.state = {identifier: "", token: ""}
+        this.state = {identifier: "", attestation: ""}
     }
 
     updateIdentifier(identifier: string) {
@@ -33,14 +37,14 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
      */
     generateAttestation() {
         createAttestation(this.props.address, this.props.badges, this.state.identifier)
-            .then(token => {
+            .then(attestation => {
                 this.setState({
-                    token
+                     attestation
                 })
                 const now = Date.now()
-                const file = new File([token], `${this.props.address}_quest_token_${now.valueOf()}.txt`, {type: "application/octet-stream"})
-                // eslint-disable-next-line no-restricted-globals
-                location.href = URL.createObjectURL(file)
+                // const file = new File([attestation], `${this.props.address}_quest_attestation_${now.valueOf()}.txt`, {type: "text/plain"})
+                const blob = new Blob([attestation],{type:"text/plain"})
+                saveAs(blob,`${this.props.address}_quest_attestation_${now.valueOf()}.txt`)
             })
 
     }
@@ -58,7 +62,6 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
                     </h3>
                     <TextField className="text" variant="filled" label="Identifier"
                                onChange={(event) => this.updateIdentifier(event.target.value)}/>
-                    <div id="qrcode"/>
                 </CardContent>
                 <CardActions className="bottomRow">
                     <Button className="attestButton" onClick={() => this.generateAttestation()}>
@@ -66,7 +69,7 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
                     </Button>
                     <div className="grow"/>
                     <Button className="attestButton" onClick={this.props.close}>
-                        <b className="text">Cancel</b>
+                        <b className="text">Close</b>
                     </Button>
                 </CardActions>
 

@@ -55,6 +55,7 @@ class App extends React.Component<any, IAppState> {
 
     /**
      *
+     *
      * @param address address to view badges for
      * @param loggedIn whether the address was retrieved from albedo
      */
@@ -66,7 +67,6 @@ class App extends React.Component<any, IAppState> {
         this.loadBadges(address)
         this.clearPath()
         if (address !== "") {
-            //todo
             // eslint-disable-next-line no-restricted-globals
             const search = location.search
             const params = new URLSearchParams(search)
@@ -96,7 +96,15 @@ class App extends React.Component<any, IAppState> {
             attestResult,
             showAttestResult: true
         })
-        this.loadBadges(attestResult.address)
+        // dont show color badges if not validated
+        if(attestResult.valid){
+            this.loadBadges(attestResult.address)
+        }else{
+            this.state.badges.forEach((badge)=>badge.valid=false)
+            this.setState({
+                badges:this.state.badges
+            })
+        }
         this.clearPath()
         // eslint-disable-next-line no-restricted-globals
         const search = location.search
