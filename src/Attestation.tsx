@@ -3,7 +3,6 @@ import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/co
 import "./Attestation.css"
 import {BadgeAsset} from "./lib/getBadges";
 import {createAttestation} from "./lib/createAttestation";
-import {IVerifyAttestationResult} from "./lib/verifyAttestation";
 
 interface IAttestationProps {
     close: () => void
@@ -39,9 +38,9 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
                     token
                 })
                 const now = Date.now()
-                const file = new File([token],`${this.props.address}_quest_token_${now.valueOf()}.txt`, {type: "application/octet-stream"})
+                const file = new File([token], `${this.props.address}_quest_token_${now.valueOf()}.txt`, {type: "application/octet-stream"})
                 // eslint-disable-next-line no-restricted-globals
-                location.href=URL.createObjectURL(file)
+                location.href = URL.createObjectURL(file)
             })
 
     }

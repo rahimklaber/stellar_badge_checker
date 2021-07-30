@@ -13,6 +13,10 @@ interface IBadgesState{
     series2: Array<BadgeAsset>
     series3: Array<BadgeAsset>
 }
+
+/**
+ * Component to view Stellar Quest badges.
+ */
 export class Badges extends React.Component<IBadgesProps, IBadgesState> {
     constructor(props: IBadgesProps) {
         super(props);

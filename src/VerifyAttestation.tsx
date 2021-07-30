@@ -13,6 +13,9 @@ interface IVerifyAttestationState {
     attestResult: IVerifyAttestationResult
 }
 
+/**
+ * Component where you can input an attestation to verify.
+ */
 export class VerifyAttestation extends React.Component<IVerifyAttestationProps, IVerifyAttestationState> {
 
     constructor(props: IVerifyAttestationProps) {
@@ -58,7 +61,7 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
                         Verify an attestation
                     </h2>
                     <TextField onChange={(event) => this.updateToken(event.target.value)} className="text"
-                               variant="filled" label="Identifier"/>
+                               variant="filled" label="Attestation"/>
                     <div id="qrcode"/>
                     {attestation}
 
