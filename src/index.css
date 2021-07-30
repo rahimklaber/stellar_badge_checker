@@ -29,3 +29,6 @@ html {
 body {
     margin: 0;
 }
+a:visited{
+    color: blue;
+}
