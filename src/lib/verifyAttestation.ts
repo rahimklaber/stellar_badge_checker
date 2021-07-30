@@ -1,14 +1,14 @@
-import {verifyMessageSignature} from '@albedo-link/signature-verification'
+import {verifyMessageSignature} from '@albedo-link/signature-verification';
 import {BadgeAsset, checkAndGetBadges} from "./getBadges";
 
 
-export interface IVerifyAttestationResult{
-    valid : boolean
-    date : Date,
-    address : string,
-    token : string,
-    badges : Array<BadgeAsset>,
-    attestationString : string
+export interface IVerifyAttestationResult {
+    valid: boolean
+    date: Date,
+    address: string,
+    token: string,
+    badges: Array<BadgeAsset>,
+    attestationString: string
 }
 
 /**
@@ -18,7 +18,7 @@ export interface IVerifyAttestationResult{
  *
  * @return object with information about the result
  */
-export async function verifyAttestation(attestation: string) : Promise<IVerifyAttestationResult> {
+export async function verifyAttestation(attestation: string): Promise<IVerifyAttestationResult> {
     try {
         const split = attestation.split("*")
         const hashes = split[0].split(",")
@@ -76,7 +76,7 @@ export async function verifyAttestation(attestation: string) : Promise<IVerifyAt
             badges: badgesForAddress,
             attestationString: attestation
         }
-    }catch (e){
+    } catch (e) {
         return {
             valid: false,
             date: new Date(),

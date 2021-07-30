@@ -2,40 +2,44 @@
     background-color: red;
 }
 
-.badges-valid{
+.badges-valid {
     background-color: limegreen;
 }
 
-.image{
+.image {
     height: 128px;
     width: 128px;
 }
-.text{
+
+.text {
     color: white;
 }
-.text-transparent{
+
+.text-transparent {
     color: transparent;
 }
 
-.badge-invalid{
+.badge-invalid {
     filter: grayscale(100%);
     background-color: #c73e1d;
     background-image: linear-gradient(315deg, #c73e1d 0%, #a23b72 37%, #2e86ab 100%);
 }
 
-.badge{
+.badge {
     background-color: #c73e1d;
     background-image: linear-gradient(315deg, #c73e1d 0%, #a23b72 37%, #2e86ab 100%);
 }
 
-.badges{
+.badges {
     margin: 20px;
 }
+
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome, Edge, Opera and Firefox */
 }

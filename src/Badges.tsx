@@ -1,13 +1,13 @@
 import React from "react";
 import {Card, CardContent, CardMedia, Grid} from "@material-ui/core";
 import {BadgeAsset} from "./lib/getBadges";
-import "./Badges.css"
+import "./Badges.css";
 
 interface IBadgesProps {
     badges: Array<BadgeAsset>
 }
 
-interface IBadgesState{
+interface IBadgesState {
     series1: Array<BadgeAsset>
     series2: Array<BadgeAsset>
     series3: Array<BadgeAsset>
@@ -23,20 +23,20 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
         this.state = {series1: [], series2: [], series3: []}
     }
 
-    static getDerivedStateFromProps(props: IBadgesProps , state: IBadgesState) : IBadgesState{
+    static getDerivedStateFromProps(props: IBadgesProps, state: IBadgesState): IBadgesState {
         return {
-            series1 : props.badges.slice(0,8),
-            series2: props.badges.slice(8,16),
-            series3: props.badges.slice(16,24)
+            series1: props.badges.slice(0, 8),
+            series2: props.badges.slice(8, 16),
+            series3: props.badges.slice(16, 24)
         }
     }
-
 
 
     createAssetComponentsGrid(assets: Array<BadgeAsset>) {
         return assets.map((asset: BadgeAsset) => {
             const txLink = asset.valid ? <a href={`https://stellar.expert/explorer/public/tx/${asset.txHash}`}
-                                            target="_blank" rel="noreferrer">{"view Tx"}</a> : <div className="text-transparent noselect">_</div> // _ is to keep the height consistent
+                                            target="_blank" rel="noreferrer">{"view Tx"}</a> :
+                <div className="text-transparent noselect">_</div> // _ is to keep the height consistent
             const cssClass = asset.valid ? "badge" : "badge-invalid"
             return <Grid item key={asset.code}>
                 <Card className={cssClass}>
@@ -47,7 +47,7 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
                         title={asset.code}
                     />
                     <CardContent>
-                        <b className="text">{"Quest ".concat(asset.code.slice(asset.code.length-1,asset.code.length))}</b><br/>
+                        <b className="text">{"Quest ".concat(asset.code.slice(asset.code.length - 1, asset.code.length))}</b><br/>
                         {txLink}
                     </CardContent>
                 </Card>

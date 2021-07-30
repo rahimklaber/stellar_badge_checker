@@ -17,6 +17,7 @@
     "easyqrcodejs": "^4.4.3",
     "file-saver": "^2.0.5",
     "filepond": "^4.28.2",
+    "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-filepond": "^7.1.1",

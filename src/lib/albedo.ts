@@ -14,10 +14,10 @@ export async function getAlbedoPublicKey(): Promise<string> {
  * @param data data to sign
  * @param address account to sign with
  */
-export async function signMessageWithAlbedo(address: string,data: string) : Promise<string>{
+export async function signMessageWithAlbedo(address: string, data: string): Promise<string> {
     const albedoResponse = await albedo.signMessage({
-        message : data,
-        pubkey : address
+        message: data,
+        pubkey: address
     })
 
     return albedoResponse.message_signature

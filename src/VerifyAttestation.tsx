@@ -1,9 +1,9 @@
 import React from "react";
 import {Button, Card, CardActions, CardContent} from "@material-ui/core";
-import "./VerifyAttestation.css"
+import "./VerifyAttestation.css";
 import {IVerifyAttestationResult, verifyAttestation} from "./lib/verifyAttestation";
-import {FilePond} from 'react-filepond'
-import 'filepond/dist/filepond.min.css'
+import {FilePond} from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
 import {FilePondFile} from "filepond";
 
 interface IVerifyAttestationProps {
@@ -36,7 +36,7 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
     }
 
     verify() {
-        if(this.state.attestation === ""){
+        if (this.state.attestation === "") {
             alert("Please upload an attestation")
             return
         }
@@ -54,9 +54,9 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
      * Extract attestation string from file.
      */
     updateAttestationFile(file: Array<FilePondFile>) {
-        if(file.length === 0){
+        if (file.length === 0) {
             this.setState({
-                attestation : ""
+                attestation: ""
             })
             return
         }
@@ -77,7 +77,7 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
                         Upload attestation file to verify
                     </h2>
                     <FilePond
-                        onupdatefiles={(files)=>this.updateAttestationFile(files)}
+                        onupdatefiles={(files) => this.updateAttestationFile(files)}
                         allowMultiple={false}
                     />
                 </CardContent>

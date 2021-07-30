@@ -1,9 +1,9 @@
 import React from "react";
 import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/core";
-import "./Attestation.css"
+import "./Attestation.css";
 import {BadgeAsset} from "./lib/getBadges";
 import {createAttestation} from "./lib/createAttestation";
-import {saveAs} from "file-saver"
+import {saveAs} from "file-saver";
 
 interface IAttestationProps {
     close: () => void
@@ -39,12 +39,12 @@ export class Attestation extends React.Component<IAttestationProps, IAttestation
         createAttestation(this.props.address, this.props.badges, this.state.identifier)
             .then(attestation => {
                 this.setState({
-                     attestation
+                    attestation
                 })
                 const now = Date.now()
                 // const file = new File([attestation], `${this.props.address}_quest_attestation_${now.valueOf()}.txt`, {type: "text/plain"})
-                const blob = new Blob([attestation],{type:"text/plain"})
-                saveAs(blob,`${this.props.address}_quest_attestation_${now.valueOf()}.txt`)
+                const blob = new Blob([attestation], {type: "text/plain"})
+                saveAs(blob, `${this.props.address}_quest_attestation_${now.valueOf()}.txt`)
             })
 
     }

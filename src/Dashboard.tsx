@@ -7,48 +7,49 @@ import {Attestation} from "./Attestation"
 import {BadgeAsset} from "./lib/getBadges";
 import {IVerifyAttestationResult, verifyAttestation} from "./lib/verifyAttestation";
 import {VerifyAttestation} from "./VerifyAttestation";
+
 interface IDashBoardProp {
     setAddress: (addr: string, albedo: boolean) => void
-    badges : Array<BadgeAsset>
-    updateAttestResult : (attestRes: IVerifyAttestationResult) => void
+    badges: Array<BadgeAsset>
+    updateAttestResult: (attestRes: IVerifyAttestationResult) => void
 }
 
 interface IDashBoardState {
     address: string
     loggedIn: boolean
-    attestationOpen : boolean
-    verifyAttestationOpen : boolean
+    attestationOpen: boolean
+    verifyAttestationOpen: boolean
 }
 
 export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> {
     constructor(props: any) {
         super(props);
-        this.state = {address: "", loggedIn: false, attestationOpen : false,verifyAttestationOpen:false}
+        this.state = {address: "", loggedIn: false, attestationOpen: false, verifyAttestationOpen: false}
         // @ts-ignore
         window.xd = (e: any) => verifyAttestation(e)
     }
 
-    closeAttestation(){
+    closeAttestation() {
         this.setState({
-            attestationOpen : false
+            attestationOpen: false
         })
     }
 
-    openAttestation(){
+    openAttestation() {
         this.setState({
-            attestationOpen : true
+            attestationOpen: true
         })
     }
 
-    closeVerifyAttestation(){
+    closeVerifyAttestation() {
         this.setState({
-            verifyAttestationOpen:false
+            verifyAttestationOpen: false
         })
     }
 
-    openVerifyAttestation(){
+    openVerifyAttestation() {
         this.setState({
-            verifyAttestationOpen:true
+            verifyAttestationOpen: true
         })
     }
 
@@ -68,21 +69,21 @@ export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> 
                     <Button color="primary"
                             onClick={() => {
                                 // logout
-                                if (this.state.loggedIn){
+                                if (this.state.loggedIn) {
                                     this.setState({
-                                        loggedIn : false,
+                                        loggedIn: false,
                                         address: ""
                                     })
-                                    this.props.setAddress("",false)
+                                    this.props.setAddress("", false)
                                     return
                                 }
-                                    getAlbedoPublicKey().then(address => {
-                                        this.props.setAddress(address, true)
-                                        this.setState({
-                                            loggedIn: true,
-                                            address: address
-                                        })
+                                getAlbedoPublicKey().then(address => {
+                                    this.props.setAddress(address, true)
+                                    this.setState({
+                                        loggedIn: true,
+                                        address: address
                                     })
+                                })
                             }}>
                         <b className="text">{albedoButtonText}</b>
                     </Button>
@@ -98,16 +99,18 @@ export class DashBoard extends React.Component<IDashBoardProp, IDashBoardState> 
                         <b className="text">Create attestation</b>
                     </Button>
 
-                    <Button onClick={()=> this.openVerifyAttestation()}>
+                    <Button onClick={() => this.openVerifyAttestation()}>
                         <b className="text">Validate attestation</b>
                     </Button>
 
-                    <Backdrop open={this.state.attestationOpen} onClick={()=>""}>
-                        <Attestation badges={this.props.badges} address={this.state.address} close={()=> this.closeAttestation()}/>
+                    <Backdrop open={this.state.attestationOpen} onClick={() => ""}>
+                        <Attestation badges={this.props.badges} address={this.state.address}
+                                     close={() => this.closeAttestation()}/>
                     </Backdrop>
 
-                    <Backdrop open={this.state.verifyAttestationOpen} onClick={()=>""}>
-                        <VerifyAttestation updateAttestResult={this.props.updateAttestResult} close={()=> this.closeVerifyAttestation()}/>
+                    <Backdrop open={this.state.verifyAttestationOpen} onClick={() => ""}>
+                        <VerifyAttestation updateAttestResult={this.props.updateAttestResult}
+                                           close={() => this.closeVerifyAttestation()}/>
                     </Backdrop>
 
 

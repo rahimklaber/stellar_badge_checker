@@ -46,7 +46,7 @@ class App extends React.Component<any, IAppState> {
             })
         } else if (params.get("attestation") !== null && params.get("attestation") !== "") {
             verifyAttestation(params.get("attestation") as string)
-                .then(attestRes=> this.updateAttestResult(attestRes))
+                .then(attestRes => this.updateAttestResult(attestRes))
         } else {
             this.loadBadges("")
         }
@@ -94,12 +94,12 @@ class App extends React.Component<any, IAppState> {
             showAttestResult: true
         })
         // dont show color badges if not validated
-        if(attestResult.valid){
+        if (attestResult.valid) {
             this.loadBadges(attestResult.address)
-        }else{
-            this.state.badges.forEach((badge)=>badge.valid=false)
+        } else {
+            this.state.badges.forEach((badge) => badge.valid = false)
             this.setState({
-                badges:this.state.badges
+                badges: this.state.badges
             })
         }
         this.clearPath()
@@ -117,15 +117,17 @@ class App extends React.Component<any, IAppState> {
             })
         }).catch(() => console.log("failed to load address"))
     }
+
     //reset page
-    clear(){
-        window.location.href=window.location.pathname
+    clear() {
+        window.location.href = window.location.pathname
     }
 
     render() {
         const attestresult = this.state.showAttestResult ?
-            <AttestationResult close={()=>this.clear()} attestResult={this.state.attestResult}/> : null
-        const address = !this.state.loggedIn && this.state.address !== "" ? <h2 className="text">{this.state.address}</h2> : null
+            <AttestationResult close={() => this.clear()} attestResult={this.state.attestResult}/> : null
+        const address = !this.state.loggedIn && this.state.address !== "" ?
+            <h2 className="text">{this.state.address}</h2> : null
         return (
             <div className="App">
                 {attestresult}

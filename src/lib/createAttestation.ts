@@ -9,21 +9,21 @@ import {signMessageWithAlbedo} from "./albedo";
  * @param token extra information to create token. Usefull when someone has requested a token.
  * @param badges
  */
-export async function createAttestation(address : string,badges: Array<BadgeAsset>,token: string=""){
+export async function createAttestation(address: string, badges: Array<BadgeAsset>, token: string = "") {
     const timeEpoch = Date.now().valueOf()
-    const validBadges = badges.filter(badge => badge.valid).map(badge=>{
+    const validBadges = badges.filter(badge => badge.valid).map(badge => {
         const series = badge.code.charAt(3)
         const quest = badge.code.charAt(5)
-        return series+quest+badge.txHash
+        return series + quest + badge.txHash
     })
 
-    const finalPart = token === "" ? "" : "*"+token
-    const fullToken = validBadges+"*"+timeEpoch+"*"+address+finalPart
+    const finalPart = token === "" ? "" : "*" + token
+    const fullToken = validBadges + "*" + timeEpoch + "*" + address + finalPart
 
-    const signaure = await signMessageWithAlbedo(address,fullToken)
-    console.log(fullToken+"*"+signaure)
+    const signaure = await signMessageWithAlbedo(address, fullToken)
+    console.log(fullToken + "*" + signaure)
 
-return fullToken+"*"+signaure
+    return fullToken + "*" + signaure
 
 
 }

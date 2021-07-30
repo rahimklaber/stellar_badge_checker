@@ -1,18 +1,18 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 
-.title{
-  color: white;
-  font-size: xx-large;
+.title {
+    color: white;
+    font-size: xx-large;
 }
 
-.text{
-  color: white;
+.text {
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 

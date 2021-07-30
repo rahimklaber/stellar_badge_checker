@@ -1,6 +1,6 @@
 import React from "react";
 import {AppBar, Button, Container} from "@material-ui/core";
-import "./AttestationResult.css"
+import "./AttestationResult.css";
 import {IVerifyAttestationResult} from "./lib/verifyAttestation";
 
 
@@ -16,7 +16,7 @@ export class AttestationResult extends React.Component<IAttestationResultProps, 
 
     render() {
 
-        const info =  <Container className="attestationInfo">
+        const info = <Container className="attestationInfo">
             {`Date created: ${this.props.attestResult.date.toDateString()}`}<br/>
             {this.props.attestResult.token === "" ? "No extra data was used to generate the attestation" : `Extra data used to generate attestation: ${this.props.attestResult.token}`}<br/>
 

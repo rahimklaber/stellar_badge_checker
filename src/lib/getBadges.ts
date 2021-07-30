@@ -22,7 +22,7 @@ export class BadgeAsset extends Asset {
         if (this._imageUrl !== "") {
             return this._imageUrl
         } else {
-            let nftversion: string =""
+            let nftversion: string = ""
             if (this.code.startsWith("SQ01")) {
                 nftversion = "1"
             } else if (this.code.startsWith("SQ02")) {
@@ -47,14 +47,14 @@ export class BadgeAsset extends Asset {
  * @return Pair of list of assets and boolean to indicate whether all assets are here
  */
 export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAsset>, boolean]> {
-    const account = await server.loadAccount(address).catch(()=> {
+    const account = await server.loadAccount(address).catch(() => {
         return null
     }) // todo what if the account is not created
     const balances = account?.balances
-    const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code,badge.asset_issuer))
+    const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer))
 
-    if(account == null){
-        return [accountBadgeAssets,false]
+    if (account == null) {
+        return [accountBadgeAssets, false]
     }
 
     //get all sq badges that the account has

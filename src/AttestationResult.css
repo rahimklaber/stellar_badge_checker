@@ -11,16 +11,16 @@
 
 }
 
-.attestationInfo{
+.attestationInfo {
     text-align: start;
 
     /*display: flex;*/
 }
 
-.grow{
+.grow {
     flex-grow: 1;
 }
 
-.text{
+.text {
     color: white;
 }
