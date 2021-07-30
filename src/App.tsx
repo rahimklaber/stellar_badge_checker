@@ -54,8 +54,6 @@ class App extends React.Component<any, IAppState> {
     }
 
     /**
-     *
-     *
      * @param address address to view badges for
      * @param loggedIn whether the address was retrieved from albedo
      */
