@@ -1,11 +1,12 @@
 import React from "react";
-import {AppBar, Container} from "@material-ui/core";
+import {AppBar, Button, Container} from "@material-ui/core";
 import "./AttestationResult.css"
 import {IVerifyAttestationResult} from "./lib/verifyAttestation";
 
 
 interface IAttestationResultProps {
     attestResult: IVerifyAttestationResult
+    close: ()=> void
 }
 
 export class AttestationResult extends React.Component<IAttestationResultProps, any> {
@@ -23,8 +24,10 @@ export class AttestationResult extends React.Component<IAttestationResultProps, 
 
                         View account badges below
                     </p>
+                    <Button onClick={this.props.close}>
+                        <b className="text">Close</b>
+                    </Button>
                 </Container>
-
 
             </AppBar>
 

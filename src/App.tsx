@@ -6,6 +6,7 @@ import {BadgeAsset, checkAndGetBadges} from "./lib/getBadges";
 import {IVerifyAttestationResult, verifyAttestation} from "./lib/verifyAttestation";
 import {AttestationResult} from "./AttestationResult";
 
+
 interface IAppState {
     address: string
     loggedIn: boolean
@@ -31,6 +32,9 @@ class App extends React.Component<any, IAppState> {
         }
     }
 
+    /**
+     * check query params and render accordingly
+     */
     componentDidMount() {
         // eslint-disable-next-line no-restricted-globals
         const search = location.search
@@ -49,6 +53,11 @@ class App extends React.Component<any, IAppState> {
         }
     }
 
+    /**
+     *
+     * @param address address to view badges for
+     * @param loggedIn whether the address was retrieved from albedo
+     */
     updateAddress(address: string, loggedIn: boolean) {
         this.setState({
             address: address,
@@ -78,6 +87,10 @@ class App extends React.Component<any, IAppState> {
         history.pushState(null, "", link)
     }
 
+    /**
+     * update the state with the result of vdrifying the attestation
+     * @param attestResult result of verifying the attestation
+     */
     updateAttestResult(attestResult: IVerifyAttestationResult) {
         this.setState({
             attestResult,
@@ -102,10 +115,30 @@ class App extends React.Component<any, IAppState> {
             })
         }).catch(() => console.log("failed to load address"))
     }
+    //reset page
+    clear(){
+        this.clearPath()
+        this.setState({
+            showAttestResult: false,
+            address: "", loggedIn: false, badges: [], attestResult: {
+                valid: false,
+                date: new Date(),
+                address: "",
+                token: "",
+                badges: [],
+                attestationString: ""
+            }
+        })
+        this.state.badges.forEach((badge)=>badge.valid=false)
+        this.setState({
+            badges:this.state.badges
+        })
+    }
 
     render() {
         const attestresult = this.state.showAttestResult ?
-            <AttestationResult attestResult={this.state.attestResult}/> : null
+            <AttestationResult close={()=>this.clear()} attestResult={this.state.attestResult}/> : null
+        const address = !this.state.loggedIn && this.state.address !== "" ? <h2 className="text">{this.state.address}</h2> : null
         return (
             <div className="App">
                 {attestresult}
@@ -113,6 +146,7 @@ class App extends React.Component<any, IAppState> {
                 <h1 className="title">
                     Stellar Quest badge checker
                 </h1>
+                {address}
                 <Badges badges={this.state.badges}/>
                 <DashBoard badges={this.state.badges} setAddress={(addr, albedo) => this.updateAddress(addr, albedo)}
                            updateAttestResult={(attestRes => this.updateAttestResult(attestRes))}/>
