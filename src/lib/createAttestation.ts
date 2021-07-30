@@ -20,10 +20,9 @@ export async function createAttestation(address: string, badges: Array<BadgeAsse
     const finalPart = token === "" ? "" : "*" + token
     const fullToken = validBadges + "*" + timeEpoch + "*" + address + finalPart
 
-    const signaure = await signMessageWithAlbedo(address, fullToken)
-    console.log(fullToken + "*" + signaure)
+    const signature = await signMessageWithAlbedo(address, fullToken)
 
-    return fullToken + "*" + signaure
+    return fullToken + "*" + signature
 
 
 }

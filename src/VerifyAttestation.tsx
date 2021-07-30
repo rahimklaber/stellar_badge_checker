@@ -62,7 +62,6 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
         }
         file[0].file.text()
             .then((attestation) => {
-                console.log(attestation)
                 this.setState({
                     attestation
                 })

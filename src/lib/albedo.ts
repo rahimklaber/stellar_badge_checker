@@ -10,7 +10,7 @@ export async function getAlbedoPublicKey(): Promise<string> {
 }
 
 /**
- * sign message with your albedo secret. //todo I think its secret
+ * sign message with your albedo secret.
  * @param data data to sign
  * @param address account to sign with
  */

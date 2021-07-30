@@ -41,7 +41,6 @@ export class BadgeAsset extends Asset {
 /**
  * Check if the account has all the badges and return the badges that it has.
  *
- * Todo: check trustlines
  *
  * @param address address to check
  * @return Pair of list of assets and boolean to indicate whether all assets are here
@@ -49,7 +48,7 @@ export class BadgeAsset extends Asset {
 export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAsset>, boolean]> {
     const account = await server.loadAccount(address).catch(() => {
         return null
-    }) // todo what if the account is not created
+    })
     const balances = account?.balances
     const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer))
 
@@ -67,7 +66,7 @@ export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAs
         }
     })
 
-    // get all payments to check whether the badge is valid todo : call next()
+    // get all payments to check whether the badge is valid
     const payments = await server.payments().forAccount(account.accountId()).limit(200).call()
     const badgePaymentsToMe = payments.records.filter(op => {
         if (op.type !== "payment") {
@@ -94,7 +93,6 @@ export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAs
             asset.txHash = foundPayment.transaction_hash
         }
     })
-    //todo figure out reduce
     let numberOfValidBadges = 0
     accountBadgeAssets.forEach(badge => {
         numberOfValidBadges = numberOfValidBadges + (badge.valid ? 1 : 0)
