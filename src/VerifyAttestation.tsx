@@ -1,11 +1,14 @@
 import React from "react";
-import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/core";
+import {Button, Card, CardActions, CardContent} from "@material-ui/core";
 import "./VerifyAttestation.css"
 import {IVerifyAttestationResult, verifyAttestation} from "./lib/verifyAttestation";
+import {FilePond} from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
+import {FilePondFile} from "filepond";
 
 interface IVerifyAttestationProps {
     close: () => void
-    updateAttestResult : (attestRes: IVerifyAttestationResult) => void
+    updateAttestResult: (attestRes: IVerifyAttestationResult) => void
 }
 
 interface IVerifyAttestationState {
@@ -33,9 +36,12 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
     }
 
     verify() {
+        if(this.state.attestation === ""){
+            alert("Please upload an attestation")
+            return
+        }
         verifyAttestation(this.state.attestation)
             .then((res) => {
-                console.log(res)
                 this.setState({
                     attestResult: res
                 })
@@ -44,24 +50,36 @@ export class VerifyAttestation extends React.Component<IVerifyAttestationProps, 
             })
     }
 
-    updateToken(attestation: string) {
-        this.setState({
-            attestation
-        })
+    /**
+     * Extract attestation string from file.
+     */
+    updateAttestationFile(file: Array<FilePondFile>) {
+        if(file.length === 0){
+            this.setState({
+                attestation : ""
+            })
+            return
+        }
+        file[0].file.text()
+            .then((attestation) => {
+                console.log(attestation)
+                this.setState({
+                    attestation
+                })
+            })
     }
 
     render() {
-
-
         return (
             <Card>
                 <CardContent className="attestation">
                     <h2 className="text">
-                        Verify an attestation
+                        Upload attestation file to verify
                     </h2>
-                    <TextField onChange={(event) => this.updateToken(event.target.value)} className="text"
-                               variant="filled" label="Attestation"/>
-
+                    <FilePond
+                        onupdatefiles={(files)=>this.updateAttestationFile(files)}
+                        allowMultiple={false}
+                    />
                 </CardContent>
                 <CardActions className="bottomRow">
                     <Button className="attestButton" onClick={() => this.verify()}>

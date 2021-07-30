@@ -22,12 +22,15 @@ export class AttestationResult extends React.Component<IAttestationResultProps, 
 
             {"View validated badges below"}
         </Container>
+        const errorInAttestation = this.props.attestResult.address === "" ? true : false
+        const errorResultMessage = "Error occurred during attestation, Please check if the attestation file is correct"
+        const normalMessage = this.props.attestResult.valid ? `Attestation for ${this.props.attestResult.address} validated` : `Attestation for ${this.props.attestResult.address} not validated`
 
         return (
             <AppBar position="sticky" className="AttestationResult">
                 <div>
                     <h2 className="text">
-                        {this.props.attestResult.valid ? `Attestation for ${this.props.attestResult.address} validated` : `Attestation for ${this.props.attestResult.address} not validated`}
+                        {errorInAttestation ? errorResultMessage : normalMessage}
                     </h2>
                     {this.props.attestResult.valid ? info : null}
                     <Button onClick={this.props.close}>

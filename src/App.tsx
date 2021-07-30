@@ -36,16 +36,15 @@ class App extends React.Component<any, IAppState> {
      * check query params and render accordingly
      */
     componentDidMount() {
-        // eslint-disable-next-line no-restricted-globals
-        const search = location.search
+        const search = window.location.search
         const params = new URLSearchParams(search)
 
-        if (params.get("address") !== null) {
+        if (params.get("address") !== null && params.get("address") !== "") {
             this.loadBadges(params.get("address") as string)
             this.setState({
                 address: params.get("address") as string
             })
-        } else if (params.get("attestation") !== null) {
+        } else if (params.get("attestation") !== null && params.get("attestation") !== "") {
             verifyAttestation(params.get("attestation") as string)
                 .then(attestRes=> this.updateAttestResult(attestRes))
         } else {
@@ -66,11 +65,11 @@ class App extends React.Component<any, IAppState> {
         this.clearPath()
         if (address !== "") {
             // eslint-disable-next-line no-restricted-globals
-            const search = location.search
+            const search = window.location.search
             const params = new URLSearchParams(search)
             params.set("address", address)
             // eslint-disable-next-line no-restricted-globals
-            const link = location.pathname + "?" + params.toString()
+            const link = window.location.pathname + "?" + params.toString()
             // eslint-disable-next-line no-restricted-globals
             history.pushState(null, "", link)
         }
@@ -80,7 +79,7 @@ class App extends React.Component<any, IAppState> {
     // set path to the base path
     clearPath() {
         // eslint-disable-next-line no-restricted-globals
-        const link = location.pathname
+        const link = window.location.pathname
         // eslint-disable-next-line no-restricted-globals
         history.pushState(null, "", link)
     }
@@ -104,14 +103,11 @@ class App extends React.Component<any, IAppState> {
             })
         }
         this.clearPath()
-        // eslint-disable-next-line no-restricted-globals
-        const search = location.search
+        const search = window.location.search
         const params = new URLSearchParams(search)
         params.set("attestation", attestResult.attestationString)
-        // eslint-disable-next-line no-restricted-globals
-        const link = location.pathname + "?" + params.toString()
-        // eslint-disable-next-line no-restricted-globals
-        history.pushState(null, "", link)
+        const link = window.location.pathname + "?" + params.toString()
+        window.history.pushState(null, "", link)
     }
 
     loadBadges(address: string) {
@@ -123,22 +119,7 @@ class App extends React.Component<any, IAppState> {
     }
     //reset page
     clear(){
-        this.clearPath()
-        this.setState({
-            showAttestResult: false,
-            address: "", loggedIn: false, badges: [], attestResult: {
-                valid: false,
-                date: new Date(),
-                address: "",
-                token: "",
-                badges: [],
-                attestationString: ""
-            }
-        })
-        this.state.badges.forEach((badge)=>badge.valid=false)
-        this.setState({
-            badges:this.state.badges
-        })
+        window.location.href=window.location.pathname
     }
 
     render() {
