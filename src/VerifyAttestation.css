@@ -1,0 +1,6 @@
+/*disable file upload footer*/
+a.filepond--credits{
+    color: transparent !important;
+    user-select: none !important;
+    pointer-events: none;
+}

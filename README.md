@@ -32,3 +32,6 @@ This project was built using [yarn](https://yarnpkg.com/) as the package Manager
 
 `yarn start` - start the Development server with hot reload.\
 `yarn build` - create a production build.
+
+## Acknowledgments
+This project is powered by https://pqina.nl/
