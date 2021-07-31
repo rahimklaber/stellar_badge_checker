@@ -111,7 +111,7 @@ class App extends React.Component<any, IAppState> {
     }
 
     loadBadges(address: string) {
-        checkAndGetBadges(address).then(([assets, complete]) => {
+        checkAndGetBadges(address).then((assets) => {
             this.setState({
                 badges: assets
             })

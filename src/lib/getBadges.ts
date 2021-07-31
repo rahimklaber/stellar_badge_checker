@@ -1,5 +1,5 @@
 import {server} from "./stellar";
-import {badges, numberOfQuestBadges} from "./badgeAssets";
+import {badges, monoBadges} from "./badgeAssets";
 import {Asset} from "stellar-sdk";
 
 /**
@@ -10,12 +10,14 @@ import {Asset} from "stellar-sdk";
 export class BadgeAsset extends Asset {
     txHash?: string
     valid?: boolean
+    mono: boolean
     private _imageUrl = ""
 
-    constructor(code: string, issuer: string, txHash?: string, valid?: boolean) {
+    constructor(code: string, issuer: string, mono: boolean, txHash?: string, valid?: boolean) {
         super(code, issuer)
         this.txHash = txHash
         this.valid = valid
+        this.mono = mono
     }
 
     getImageUrl(): string {
@@ -23,7 +25,9 @@ export class BadgeAsset extends Asset {
             return this._imageUrl
         } else {
             let nftversion: string = ""
-            if (this.code.startsWith("SQ01")) {
+            if (this.mono) {
+                nftversion = " 2"
+            } else if (this.code.startsWith("SQ01")) {
                 nftversion = "1"
             } else if (this.code.startsWith("SQ02")) {
                 nftversion = "2"
@@ -45,15 +49,17 @@ export class BadgeAsset extends Asset {
  * @param address address to check
  * @return Pair of list of assets and boolean to indicate whether all assets are here
  */
-export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAsset>, boolean]> {
+export async function checkAndGetBadges(address: string): Promise<Array<BadgeAsset>> {
     const account = await server.loadAccount(address).catch(() => {
         return null
     })
     const balances = account?.balances
-    const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer))
+    const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer, false))
+    const monoBadgeAssets = monoBadges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer, true))
+    accountBadgeAssets.push(...monoBadgeAssets)
 
     if (account == null) {
-        return [accountBadgeAssets, false]
+        return accountBadgeAssets
     }
 
     //get all sq badges that the account has
@@ -88,7 +94,7 @@ export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAs
     })
 
     accountBadgeAssets.forEach(asset => {
-        const foundPayment = badgePaymentsToMe.find(badgePayment => badgePayment.asset_code === asset.code)
+        const foundPayment = badgePaymentsToMe.find(badgePayment => badgePayment.asset_code === asset.code && badgePayment.asset_issuer === asset.issuer)
         if (foundPayment !== undefined) {
             asset.txHash = foundPayment.transaction_hash
         }
@@ -98,6 +104,6 @@ export async function checkAndGetBadges(address: string): Promise<[Array<BadgeAs
         numberOfValidBadges = numberOfValidBadges + (badge.valid ? 1 : 0)
     })
 
-    return [accountBadgeAssets, numberOfValidBadges === numberOfQuestBadges]
+    return accountBadgeAssets
 
 }

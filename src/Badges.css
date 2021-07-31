@@ -11,6 +11,15 @@
     width: 128px;
 }
 
+.monochrome-series-title {
+    color: white;
+    margin-bottom: 0;
+}
+
+.monochrome-series-header {
+    margin-bottom: 0.83em;
+}
+
 .text {
     color: white;
 }
@@ -42,4 +51,14 @@
     user-select: none;
     /* Non-prefixed version, currently
                                      supported by Chrome, Edge, Opera and Firefox */
+}
+
+.button-border {
+    border-color: #c73e1d !important;
+    border-image: linear-gradient(315deg, #c73e1d 0%, #a23b72 37%, #2e86ab 100%) !important;
+    background-color: blue !important;
+}
+
+.MuiSwitch-track {
+    background-color: red !important;
 }

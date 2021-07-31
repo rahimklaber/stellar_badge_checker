@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardContent, CardMedia, Grid} from "@material-ui/core";
+import {Card, CardContent, CardMedia, Container, Grid, Switch} from "@material-ui/core";
 import {BadgeAsset} from "./lib/getBadges";
 import "./Badges.css";
 
@@ -11,6 +11,10 @@ interface IBadgesState {
     series1: Array<BadgeAsset>
     series2: Array<BadgeAsset>
     series3: Array<BadgeAsset>
+    series1mono: Array<BadgeAsset>
+    series2mono: Array<BadgeAsset>
+    viewSeries1mono: boolean
+    viewSeries2mono: boolean
 }
 
 /**
@@ -20,14 +24,26 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
     constructor(props: IBadgesProps) {
         super(props);
         // series 1..3 are assets for those series
-        this.state = {series1: [], series2: [], series3: []}
+        this.state = {
+            series1: [],
+            series2: [],
+            series3: [],
+            series1mono: [],
+            series2mono: [],
+            viewSeries1mono: false,
+            viewSeries2mono: false
+        }
     }
 
     static getDerivedStateFromProps(props: IBadgesProps, state: IBadgesState): IBadgesState {
         return {
             series1: props.badges.slice(0, 8),
             series2: props.badges.slice(8, 16),
-            series3: props.badges.slice(16, 24)
+            series3: props.badges.slice(16, 24),
+            series1mono: props.badges.slice(24, 32),
+            series2mono: props.badges.slice(32, 40),
+            viewSeries1mono: state.viewSeries1mono,
+            viewSeries2mono: state.viewSeries2mono
         }
     }
 
@@ -60,21 +76,54 @@ export class Badges extends React.Component<IBadgesProps, IBadgesState> {
         const series1AssetGrid = this.createAssetComponentsGrid(this.state.series1)
         const series2AssetGrid = this.createAssetComponentsGrid(this.state.series2)
         const series3AssetGrid = this.createAssetComponentsGrid(this.state.series3)
+        const series1monoAssetGrid = this.createAssetComponentsGrid(this.state.series1mono)
+        const series2monoAssetGrid = this.createAssetComponentsGrid(this.state.series2mono)
+
+        const series1MonoOrNormal = this.state.viewSeries1mono ? series1monoAssetGrid : series1AssetGrid
+        const series2MonoOrNormal = this.state.viewSeries2mono ? series2monoAssetGrid : series2AssetGrid
 
 
         return (
             <div className="badges">
-                <h2 className="text">
-                    Series 1
-                </h2>
+                <Container>
+                    <h2 className="monochrome-series-title">
+                        Series 1
+                    </h2>
+                    <div className="monochrome-series-header">
+                        <span className="text"><b>Monochrome</b></span>
+                        <Switch
+                            checked={this.state.viewSeries1mono}
+                            onChange={(event) => {
+                                this.setState({
+                                    viewSeries1mono: event.target.checked
+                                })
+                            }
+                            }
+                        />
+                    </div>
+                </Container>
                 <Grid container spacing={2} justifyContent="center" alignItems="center">
-                    {series1AssetGrid}
+                    {series1MonoOrNormal}
                 </Grid>
-                <h2 className="text">
-                    Series 2
-                </h2>
+                <Container>
+                    <h2 className="monochrome-series-title">
+                        Series 2
+                    </h2>
+                    <div className="monochrome-series-header">
+                        <span className="text"><b>Monochrome</b></span>
+                        <Switch
+                            checked={this.state.viewSeries2mono}
+                            onChange={(event) => {
+                                this.setState({
+                                    viewSeries2mono: event.target.checked
+                                })
+                            }
+                            }
+                        />
+                    </div>
+                </Container>
                 <Grid container spacing={2} justifyContent="center" alignItems="center">
-                    {series2AssetGrid}
+                    {series2MonoOrNormal}
                 </Grid>
                 <h2 className="text">
                     Series 3
