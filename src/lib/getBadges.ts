@@ -1,6 +1,6 @@
 import {server} from "./stellar";
 import {badges, monoBadges} from "./badgeAssets";
-import {Asset} from "stellar-sdk";
+import {AccountResponse, Asset} from "stellar-sdk";
 
 /**
  * Class to represent a Badge
@@ -50,9 +50,15 @@ export class BadgeAsset extends Asset {
  * @return Pair of list of assets and boolean to indicate whether all assets are here
  */
 export async function checkAndGetBadges(address: string): Promise<Array<BadgeAsset>> {
-    const account = await server.loadAccount(address).catch(() => {
-        return null
-    })
+    let account: AccountResponse | null
+    if(address === ""){
+        account = null
+    }else{
+        account = await server.loadAccount(address).catch(() => {
+            return null
+        })
+    }
+
     const balances = account?.balances
     const accountBadgeAssets: Array<BadgeAsset> = badges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer, false))
     const monoBadgeAssets = monoBadges.map(badge => new BadgeAsset(badge.asset_code, badge.asset_issuer, true))
@@ -78,7 +84,7 @@ export async function checkAndGetBadges(address: string): Promise<Array<BadgeAss
         if (op.type !== "payment") {
             return false
         }
-        if (op.to !== account.accountId()) {
+        if (op.to !== account?.accountId()) {
             return false
         }
         if (!badges.some(({
